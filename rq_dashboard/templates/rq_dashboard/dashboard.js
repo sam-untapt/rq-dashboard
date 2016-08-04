@@ -1,5 +1,5 @@
 var url_for = function(name, param) {
-    var url = {{ rq_url_prefix|tojson|safe }};
+    var url = {= rq_url_prefix|tojson|safe =};
     if (name == 'queues') { url += 'queues.json'; }
     else if (name == 'workers') { url += 'workers.json'; }
     else if (name == 'cancel_job') { url += 'job/' + encodeURIComponent(param) + '/cancel'; }
@@ -8,7 +8,7 @@ var url_for = function(name, param) {
 };
 
 var url_for_jobs = function(param, page) {
-    var url = {{ rq_url_prefix|tojson|safe }} + 'jobs/' + encodeURIComponent(param) + '/' + page + '.json';
+    var url = {= rq_url_prefix|tojson|safe =} + 'jobs/' + encodeURIComponent(param) + '/' + page + '.json';
     return url;
 };
 
@@ -189,7 +189,7 @@ var api = {
         $placeholderEl.show();
 
         // Fetch the available jobs on the queue
-        api.getJobs('{{ queue.name }}', '{{ page }}', function(jobs, pagination) {
+        api.getJobs('{= queue.name =}', '{= page =}', function(jobs, pagination) {
             onJobsLoaded(jobs, pagination, done);
         });
     };
@@ -229,7 +229,7 @@ var api = {
             var $el = $(html);
 
             // Special markup for the active page
-            if (page.number === {{ page }} ) {
+            if (page.number === {= page =} ) {
                 $el.addClass('active');
             }
 
