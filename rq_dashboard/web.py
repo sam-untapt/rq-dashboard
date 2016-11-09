@@ -22,8 +22,12 @@ from math import ceil
 import arrow
 from flask import Blueprint, current_app, render_template, url_for
 from redis import Redis, from_url
-from rq import (Queue, Worker, cancel_job, get_failed_queue, pop_connection,
+from rq import (Queue, Worker, job, get_failed_queue, pop_connection,
                 push_connection, requeue_job)
+
+import logging
+
+logging.disable(logging.INFO)
 
 blueprint = Blueprint(
     'rq_dashboard',
@@ -132,7 +136,7 @@ def overview(queue_name, page):
 @blueprint.route('/job/<job_id>/cancel', methods=['POST'])
 @jsonify
 def cancel_job_view(job_id):
-    cancel_job(job_id)
+    job.Job.fetch(job_id).delete()
     return dict(status='OK')
 
 
