@@ -25,9 +25,6 @@ from redis import Redis, from_url
 from rq import (Queue, Worker, job, get_failed_queue, pop_connection,
                 push_connection, requeue_job)
 
-import logging
-
-logging.disable(logging.INFO)
 
 blueprint = Blueprint(
     'rq_dashboard',
