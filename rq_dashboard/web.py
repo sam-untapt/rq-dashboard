@@ -25,26 +25,13 @@ from redis import Redis, from_url
 from rq import (Queue, Worker, job, get_failed_queue, pop_connection,
                 push_connection, requeue_job)
 
+
 blueprint = Blueprint(
     'rq_dashboard',
     __name__,
     template_folder='templates',
     static_folder='static',
 )
-
-
-@blueprint.before_app_first_request
-def setup_rq_connection():
-    redis_url = current_app.config.get('REDIS_URL')
-    if redis_url:
-        current_app.redis_conn = from_url(redis_url)
-    else:
-        current_app.redis_conn = Redis(
-            host=current_app.config.get('REDIS_HOST'),
-            port=current_app.config.get('REDIS_PORT'),
-            password=current_app.config.get('REDIS_PASSWORD'),
-            db=current_app.config.get('REDIS_DB')
-        )
 
 
 @blueprint.before_request
